@@ -22,6 +22,70 @@ body{
   overflow:hidden;
 }
 
+.heart-layer{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  overflow:hidden;
+  z-index:1;
+}
+
+.floating-heart{
+  position:absolute;
+  width:18px;
+  height:18px;
+  background:rgba(210,39,97,.18);
+  transform:rotate(45deg);
+  animation:floatHeart 7s ease-in-out infinite;
+}
+
+.floating-heart::before,
+.floating-heart::after{
+  content:"";
+  position:absolute;
+  width:18px;
+  height:18px;
+  background:inherit;
+  border-radius:50%;
+}
+
+.floating-heart::before{left:-9px;top:0;}
+.floating-heart::after{top:-9px;left:0;}
+
+.fh1{left:7%;top:12%;width:15px;height:15px;animation-delay:.1s;}
+.fh1::before,.fh1::after{width:15px;height:15px;}
+.fh1::before{left:-7.5px;}.fh1::after{top:-7.5px;}
+
+.fh2{right:10%;top:15%;background:rgba(255,95,140,.20);animation-delay:1s;}
+.fh3{left:13%;bottom:18%;width:22px;height:22px;animation-delay:2.1s;}
+.fh3::before,.fh3::after{width:22px;height:22px;}
+.fh3::before{left:-11px;}.fh3::after{top:-11px;}
+
+.fh4{right:14%;bottom:20%;width:14px;height:14px;background:rgba(157,23,77,.16);animation-delay:1.8s;}
+.fh4::before,.fh4::after{width:14px;height:14px;}
+.fh4::before{left:-7px;}.fh4::after{top:-7px;}
+
+.fh5{left:28%;top:6%;width:12px;height:12px;background:rgba(210,39,97,.14);animation-delay:3s;}
+.fh5::before,.fh5::after{width:12px;height:12px;}
+.fh5::before{left:-6px;}.fh5::after{top:-6px;}
+
+.fh6{right:26%;top:7%;width:13px;height:13px;background:rgba(255,95,140,.15);animation-delay:2.6s;}
+.fh6::before,.fh6::after{width:13px;height:13px;}
+.fh6::before{left:-6.5px;}.fh6::after{top:-6.5px;}
+
+.fh7{left:5%;top:52%;width:13px;height:13px;background:rgba(157,23,77,.15);animation-delay:4s;}
+.fh7::before,.fh7::after{width:13px;height:13px;}
+.fh7::before{left:-6.5px;}.fh7::after{top:-6.5px;}
+
+.fh8{right:5%;top:52%;width:17px;height:17px;background:rgba(210,39,97,.16);animation-delay:3.4s;}
+.fh8::before,.fh8::after{width:17px;height:17px;}
+.fh8::before{left:-8.5px;}.fh8::after{top:-8.5px;}
+
+@keyframes floatHeart{
+  0%,100%{transform:translateY(0) rotate(45deg);opacity:.65;}
+  50%{transform:translateY(-18px) rotate(45deg);opacity:1;}
+}
+
 .container{
   width:100%;
   max-width:430px;
@@ -31,6 +95,7 @@ body{
   align-items:center;
   justify-content:center;
   perspective:1000px;
+  z-index:2;
 }
 
 .envelope{
@@ -113,14 +178,52 @@ body{
     0 8px 18px rgba(130,0,60,.35);
   cursor:pointer;
   transition:.6s;
+  user-select:none;
+}
+
+.seal::before{
+  content:"";
+  width:22px;
+  height:22px;
+  background:rgba(255,255,255,.92);
+  position:absolute;
+  top:12px;
+  left:50%;
+  transform:translateX(-50%) rotate(45deg);
+  border-radius:3px;
+  opacity:.9;
+}
+
+.seal::after{
+  content:"";
+  width:22px;
+  height:22px;
+  position:absolute;
+  top:6px;
+  left:50%;
+  transform:translateX(-50%);
+  border-radius:50%;
+  box-shadow:-7px 7px 0 rgba(255,255,255,.92), 7px 7px 0 rgba(255,255,255,.92);
+  opacity:.9;
+}
+
+.seal span{
+  position:relative;
+  z-index:2;
+  margin-top:26px;
 }
 
 .paper{
   position:absolute;
   width:290px;
   height:390px;
-  background:#fffdfd;
-  border-radius:22px;
+  background:
+    linear-gradient(90deg, rgba(213,114,128,.18) 0 1px, transparent 1px 100%),
+    repeating-linear-gradient(to bottom,#fffaf4 0,#fffaf4 31px,rgba(210,130,145,.16) 32px),
+    #fffaf4;
+  background-size:100% 100%,100% 32px,100% 100%;
+  border:1px solid rgba(186,111,123,.22);
+  border-radius:14px 14px 22px 22px;
   padding:28px 22px;
   box-shadow:0 20px 50px rgba(120,0,60,.18);
   bottom:170px;
@@ -131,15 +234,72 @@ body{
   overflow:hidden;
 }
 
-.paper:before{
+.paper::before{
   content:"";
   position:absolute;
-  width:180px;
-  height:180px;
-  background:rgba(255,105,145,.08);
+  inset:0;
+  background:
+    radial-gradient(circle at 15% 12%, rgba(255,255,255,.85), transparent 20%),
+    radial-gradient(circle at 88% 9%, rgba(222,65,107,.08), transparent 24%),
+    radial-gradient(circle at 92% 92%, rgba(222,65,107,.08), transparent 22%),
+    linear-gradient(115deg, transparent 0 56%, rgba(210,130,145,.08) 57%, transparent 64%);
+  pointer-events:none;
+  z-index:0;
+}
+
+.paper::after{
+  content:"";
+  position:absolute;
+  right:22px;
+  bottom:22px;
+  width:42px;
+  height:42px;
+  background:rgba(218,39,96,.08);
+  transform:rotate(45deg);
+  border-radius:7px;
+  z-index:0;
+}
+
+.paper-heart{
+  position:absolute;
+  width:36px;
+  height:36px;
+  background:rgba(218,39,96,.075);
+  transform:rotate(45deg);
+  pointer-events:none;
+  z-index:0;
+}
+
+.paper-heart::before,
+.paper-heart::after{
+  content:"";
+  position:absolute;
+  width:36px;
+  height:36px;
   border-radius:50%;
-  right:-60px;
-  top:-50px;
+  background:inherit;
+}
+
+.paper-heart::before{left:-18px;top:0;}
+.paper-heart::after{top:-18px;left:0;}
+.paper-heart.one{right:28px;top:34px;}
+.paper-heart.two{left:28px;bottom:42px;width:26px;height:26px;background:rgba(218,39,96,.06);}
+.paper-heart.two::before,.paper-heart.two::after{width:26px;height:26px;}
+.paper-heart.two::before{left:-13px;}.paper-heart.two::after{top:-13px;}
+
+.paper-content{
+  position:relative;
+  z-index:2;
+  opacity:0;
+  transform:translateY(10px);
+  transition:.55s ease;
+  pointer-events:none;
+}
+
+.paper.show-content .paper-content{
+  opacity:1;
+  transform:translateY(0);
+  pointer-events:auto;
 }
 
 .paper.final{
@@ -189,11 +349,12 @@ p{
 }
 
 .box{
-  background:#fff1f6;
+  background:rgba(255,241,246,.82);
   border:1px solid #ffd1df;
   padding:17px;
   border-radius:20px;
   margin-top:17px;
+  backdrop-filter:blur(2px);
 }
 
 .signature{
@@ -203,15 +364,6 @@ p{
   margin-top:22px;
 }
 
-.sticker{
-  position:absolute;
-  font-size:27px;
-}
-
-.s1{top:20px;right:25px;transform:rotate(12deg);}
-.s2{bottom:25px;left:25px;transform:rotate(-10deg);}
-.s3{bottom:25px;right:28px;transform:rotate(8deg);}
-
 .open .flap{
   transform:rotateX(180deg);
   z-index:1;
@@ -220,6 +372,7 @@ p{
 .open .seal{
   transform:translate(-50%,-50%) scale(.2);
   opacity:0;
+  pointer-events:none;
 }
 
 .open .paper{
@@ -247,8 +400,14 @@ p{
 }
 
 @media(max-width:480px){
+  body{
+    align-items:flex-start;
+  }
+
   .container{
-    height:620px;
+    height:100vh;
+    min-height:620px;
+    max-width:100%;
   }
 
   .envelope{
@@ -261,20 +420,37 @@ p{
     width:260px;
     height:360px;
     bottom:155px;
+    padding:24px 18px;
   }
 
   .paper.final{
     width:92%;
-    height:540px;
-    bottom:35px;
+    height:calc(100vh - 70px);
+    max-height:560px;
+    bottom:32px;
+    padding:25px 18px;
   }
 
   h1{
-    font-size:25px;
+    font-size:24px;
   }
 
   p{
-    font-size:14.8px;
+    font-size:14.6px;
+    line-height:1.65;
+  }
+
+  .box{
+    padding:15px;
+  }
+
+  .floating-heart{
+    opacity:.55;
+  }
+
+  .fh7,
+  .fh8{
+    display:none;
   }
 }
 </style>
@@ -282,67 +458,81 @@ p{
 
 <body>
 
+<audio id="toque" src="toque.mp3" preload="auto"></audio>
+
+<div class="heart-layer" aria-hidden="true">
+  <span class="floating-heart fh1"></span>
+  <span class="floating-heart fh2"></span>
+  <span class="floating-heart fh3"></span>
+  <span class="floating-heart fh4"></span>
+  <span class="floating-heart fh5"></span>
+  <span class="floating-heart fh6"></span>
+  <span class="floating-heart fh7"></span>
+  <span class="floating-heart fh8"></span>
+</div>
+
 <div class="container" id="container">
 
   <div class="paper" id="paper">
-    <span class="sticker s1">🌹</span>
-    <span class="sticker s2">💌</span>
-    <span class="sticker s3">❤️</span>
+    <span class="paper-heart one" aria-hidden="true"></span>
+    <span class="paper-heart two" aria-hidden="true"></span>
 
-    <span class="tag">Eu te amo</span>
+    <div class="paper-content">
+      <span class="tag">Dia dos Namorados</span>
 
-    <h1>Para você, Andressa Valério ❤️</h1>
-
-    <p>
-      Hoje eu queria transformar algumas palavras em algo bonito,
-      simples e cheio de carinho.
-    </p>
-
-    <div class="box">
-      <p>Meu amor,</p>
+      <h1>Para você, Andressa Valério</h1>
 
       <p>
-        Não existem palavras suficientes para expressar o quanto você é valiosa
-        para mim e o tamanho do amor que sinto por você.
+        Hoje eu queria transformar algumas palavras em algo bonito,
+        simples e cheio de carinho.
       </p>
 
-      <p>
-        Todos os dias eu tenho ainda mais certeza de que sou um homem
-        verdadeiramente rico, porque, mesmo em meio às dificuldades da vida,
-        eu tenho você ao meu lado.
-      </p>
+      <div class="box">
+        <p>Meu amor,</p>
 
-      <p>
-        Obrigado por existir. Obrigado por nunca desistir de nós e por acreditar
-        em mim até quando eu mesmo duvidei.
-      </p>
+        <p>
+          Não existem palavras suficientes para expressar o quanto você é valiosa
+          para mim e o tamanho do amor que sinto por você.
+        </p>
 
-      <p>
-        Obrigado por me apoiar, por caminhar comigo, por segurar minha mão nos
-        momentos difíceis e por comemorar cada pequena conquista ao meu lado.
-      </p>
+        <p>
+          Todos os dias eu tenho ainda mais certeza de que sou um homem
+          verdadeiramente rico, porque, mesmo em meio às dificuldades da vida,
+          eu tenho você ao meu lado.
+        </p>
 
-      <p>
-        Você me ajudou a me tornar a pessoa que sou hoje. Seu amor, sua força,
-        sua paciência e seu cuidado transformaram a minha vida de maneiras que
-        talvez você nem imagine.
-      </p>
+        <p>
+          Obrigado por existir. Obrigado por nunca desistir de nós e por acreditar
+          em mim até quando eu mesmo duvidei.
+        </p>
 
-      <p>
-        Quero continuar construindo nossa história, realizando nossos sonhos e
-        vivendo cada capítulo ao seu lado. Que Deus continue abençoando o nosso
-        amor e fortalecendo nossa família todos os dias.
-      </p>
+        <p>
+          Obrigado por me apoiar, por caminhar comigo, por segurar minha mão nos
+          momentos difíceis e por comemorar cada pequena conquista ao meu lado.
+        </p>
 
-      <p>
-        Eu te amo mais do que qualquer texto conseguiria explicar.
+        <p>
+          Você me ajudou a me tornar a pessoa que sou hoje. Seu amor, sua força,
+          sua paciência e seu cuidado transformaram a minha vida de maneiras que
+          talvez você nem imagine.
+        </p>
+
+        <p>
+          Quero continuar construindo nossa história, realizando nossos sonhos e
+          vivendo cada capítulo ao seu lado. Que Deus continue abençoando o nosso
+          amor e fortalecendo nossa família todos os dias.
+        </p>
+
+        <p>
+          Eu te amo mais do que qualquer texto conseguiria explicar.
+        </p>
+      </div>
+
+      <p class="signature">
+        Com todo o meu amor,<br>
+        Marcos Henrique
       </p>
     </div>
-
-    <p class="signature">
-      Com todo o meu amor,<br>
-      Marcos Henrique ❤️
-    </p>
   </div>
 
   <div class="envelope" id="envelope">
@@ -351,7 +541,7 @@ p{
     <div class="left-fold"></div>
     <div class="right-fold"></div>
     <div class="bottom-fold"></div>
-    <div class="seal">Toque aqui</div>
+    <div class="seal" id="seal" role="button" tabindex="0" aria-label="Abrir carta e tocar música"><span>Toque aqui</span></div>
   </div>
 
 </div>
@@ -359,9 +549,19 @@ p{
 <script>
 const container = document.getElementById("container");
 const paper = document.getElementById("paper");
-const envelope = document.getElementById("envelope");
+const seal = document.getElementById("seal");
+const toque = document.getElementById("toque");
+let opened = false;
 
-envelope.addEventListener("click", function(){
+function abrirCarta(){
+  if(opened) return;
+  opened = true;
+
+  toque.currentTime = 0;
+  toque.play().catch(function(){
+    console.log("O navegador bloqueou o áudio. O toque precisa ser iniciado pelo clique do usuário.");
+  });
+
   container.classList.add("open");
 
   setTimeout(function(){
@@ -371,6 +571,18 @@ envelope.addEventListener("click", function(){
   setTimeout(function(){
     paper.classList.add("final");
   }, 1700);
+
+  setTimeout(function(){
+    paper.classList.add("show-content");
+  }, 2300);
+}
+
+seal.addEventListener("click", abrirCarta);
+seal.addEventListener("keydown", function(event){
+  if(event.key === "Enter" || event.key === " "){
+    event.preventDefault();
+    abrirCarta();
+  }
 });
 </script>
 
