@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Carta para Andressa Valério</title>
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:Arial, sans-serif;
+}
+
+body{
+  min-height:100vh;
+  background:linear-gradient(135deg,#ffe8ef,#fff7fb,#f4d9ff);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+}
+
+.container{
+  width:100%;
+  max-width:430px;
+  height:660px;
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  perspective:1000px;
+}
+
+.envelope{
+  width:325px;
+  height:215px;
+  position:absolute;
+  bottom:150px;
+  z-index:10;
+}
+
+.back{
+  position:absolute;
+  inset:0;
+  background:#f3b4c9;
+  border-radius:16px;
+  box-shadow:0 25px 60px rgba(130,0,60,.25);
+}
+
+.flap{
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:125px;
+  background:#ffd8e4;
+  clip-path:polygon(0 0,100% 0,50% 100%);
+  transform-origin:top;
+  z-index:5;
+  transition:1s ease;
+}
+
+.left-fold{
+  position:absolute;
+  inset:0;
+  background:#f7c4d5;
+  clip-path:polygon(0 0,50% 50%,0 100%);
+  border-radius:16px 0 0 16px;
+  z-index:4;
+}
+
+.right-fold{
+  position:absolute;
+  inset:0;
+  background:#ef9fba;
+  clip-path:polygon(100% 0,50% 50%,100% 100%);
+  border-radius:0 16px 16px 0;
+  z-index:4;
+}
+
+.bottom-fold{
+  position:absolute;
+  inset:0;
+  background:#e992b0;
+  clip-path:polygon(0 100%,50% 42%,100% 100%);
+  border-radius:0 0 16px 16px;
+  z-index:6;
+}
+
+.seal{
+  position:absolute;
+  width:74px;
+  height:74px;
+  border-radius:50%;
+  background:radial-gradient(circle at 30% 25%, #ff9bb4, #d92761 60%, #a91143);
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%);
+  z-index:8;
+  color:white;
+  font-size:11px;
+  font-weight:bold;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:10px;
+  box-shadow:
+    inset 0 3px 8px rgba(255,255,255,.35),
+    inset 0 -5px 10px rgba(80,0,35,.25),
+    0 8px 18px rgba(130,0,60,.35);
+  cursor:pointer;
+  transition:.6s;
+}
+
+.paper{
+  position:absolute;
+  width:290px;
+  height:390px;
+  background:#fffdfd;
+  border-radius:22px;
+  padding:28px 22px;
+  box-shadow:0 20px 50px rgba(120,0,60,.18);
+  bottom:170px;
+  transform:translateY(105px) scale(.86);
+  opacity:0;
+  z-index:3;
+  transition:1.3s ease;
+  overflow:hidden;
+}
+
+.paper:before{
+  content:"";
+  position:absolute;
+  width:180px;
+  height:180px;
+  background:rgba(255,105,145,.08);
+  border-radius:50%;
+  right:-60px;
+  top:-50px;
+}
+
+.paper.final{
+  width:90%;
+  max-width:370px;
+  height:580px;
+  bottom:35px;
+  transform:translateY(0) scale(1);
+  opacity:1;
+  z-index:30;
+  overflow-y:auto;
+  box-shadow:0 30px 80px rgba(120,0,60,.28);
+}
+
+.paper.final::-webkit-scrollbar{
+  width:5px;
+}
+
+.paper.final::-webkit-scrollbar-thumb{
+  background:#f3a8bf;
+  border-radius:20px;
+}
+
+.tag{
+  display:inline-block;
+  background:#ffe4ec;
+  color:#c51f58;
+  padding:8px 15px;
+  border-radius:30px;
+  font-size:13px;
+  font-weight:bold;
+  margin-bottom:18px;
+}
+
+h1{
+  color:#9d174d;
+  font-size:27px;
+  line-height:1.15;
+  margin-bottom:16px;
+}
+
+p{
+  color:#633044;
+  font-size:15.5px;
+  line-height:1.7;
+  margin-bottom:14px;
+}
+
+.box{
+  background:#fff1f6;
+  border:1px solid #ffd1df;
+  padding:17px;
+  border-radius:20px;
+  margin-top:17px;
+}
+
+.signature{
+  text-align:right;
+  font-weight:bold;
+  color:#b0174f;
+  margin-top:22px;
+}
+
+.sticker{
+  position:absolute;
+  font-size:27px;
+}
+
+.s1{top:20px;right:25px;transform:rotate(12deg);}
+.s2{bottom:25px;left:25px;transform:rotate(-10deg);}
+.s3{bottom:25px;right:28px;transform:rotate(8deg);}
+
+.open .flap{
+  transform:rotateX(180deg);
+  z-index:1;
+}
+
+.open .seal{
+  transform:translate(-50%,-50%) scale(.2);
+  opacity:0;
+}
+
+.open .paper{
+  opacity:1;
+  transform:translateY(-165px) scale(.92);
+}
+
+.move-front .paper{
+  animation:comeFront 1.2s ease forwards;
+}
+
+@keyframes comeFront{
+  0%{
+    transform:translateY(-165px) scale(.92);
+    z-index:3;
+  }
+  45%{
+    transform:translateY(-230px) scale(.95);
+    z-index:20;
+  }
+  100%{
+    transform:translateY(0) scale(1);
+    z-index:30;
+  }
+}
+
+@media(max-width:480px){
+  .container{
+    height:620px;
+  }
+
+  .envelope{
+    width:295px;
+    height:195px;
+    bottom:135px;
+  }
+
+  .paper{
+    width:260px;
+    height:360px;
+    bottom:155px;
+  }
+
+  .paper.final{
+    width:92%;
+    height:540px;
+    bottom:35px;
+  }
+
+  h1{
+    font-size:25px;
+  }
+
+  p{
+    font-size:14.8px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container" id="container">
+
+  <div class="paper" id="paper">
+    <span class="sticker s1">🌹</span>
+    <span class="sticker s2">💌</span>
+    <span class="sticker s3">❤️</span>
+
+    <span class="tag">Dia dos Namorados</span>
+
+    <h1>Para você, Andressa Valério ❤️</h1>
+
+    <p>
+      Hoje eu queria transformar algumas palavras em algo bonito,
+      simples e cheio de carinho.
+    </p>
+
+    <div class="box">
+      <p>Meu amor,</p>
+
+      <p>
+        Não existem palavras suficientes para expressar o quanto você é valiosa
+        para mim e o tamanho do amor que sinto por você.
+      </p>
+
+      <p>
+        Todos os dias eu tenho ainda mais certeza de que sou um homem
+        verdadeiramente rico, porque, mesmo em meio às dificuldades da vida,
+        eu tenho você ao meu lado.
+      </p>
+
+      <p>
+        Obrigado por existir. Obrigado por nunca desistir de nós e por acreditar
+        em mim até quando eu mesmo duvidei.
+      </p>
+
+      <p>
+        Obrigado por me apoiar, por caminhar comigo, por segurar minha mão nos
+        momentos difíceis e por comemorar cada pequena conquista ao meu lado.
+      </p>
+
+      <p>
+        Você me ajudou a me tornar a pessoa que sou hoje. Seu amor, sua força,
+        sua paciência e seu cuidado transformaram a minha vida de maneiras que
+        talvez você nem imagine.
+      </p>
+
+      <p>
+        Quero continuar construindo nossa história, realizando nossos sonhos e
+        vivendo cada capítulo ao seu lado. Que Deus continue abençoando o nosso
+        amor e fortalecendo nossa família todos os dias.
+      </p>
+
+      <p>
+        Eu te amo mais do que qualquer texto conseguiria explicar.
+      </p>
+    </div>
+
+    <p class="signature">
+      Com todo o meu amor,<br>
+      Marcos Henrique ❤️
+    </p>
+  </div>
+
+  <div class="envelope" id="envelope">
+    <div class="back"></div>
+    <div class="flap"></div>
+    <div class="left-fold"></div>
+    <div class="right-fold"></div>
+    <div class="bottom-fold"></div>
+    <div class="seal">Toque aqui</div>
+  </div>
+
+</div>
+
+<script>
+const container = document.getElementById("container");
+const paper = document.getElementById("paper");
+const envelope = document.getElementById("envelope");
+
+envelope.addEventListener("click", function(){
+  container.classList.add("open");
+
+  setTimeout(function(){
+    container.classList.add("move-front");
+  }, 900);
+
+  setTimeout(function(){
+    paper.classList.add("final");
+  }, 1700);
+});
+</script>
+
+</body>
+</html>
